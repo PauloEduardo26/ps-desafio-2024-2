@@ -8,35 +8,38 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/dialog'
-import FormFieldsUser from './form-fields-user'
-import { updateUser } from '@/actions/user'
+import FormFieldsCategory from './form-fields-category'
+import { updateCategory } from '@/actions/category'
 import { filterFormData } from '@/services/filter-form-data'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
-import { userType } from '@/types/user'
+import { categoryType } from '@/types/category'
 import { ResponseErrorType, api } from '@/services/api'
 
-interface DialogUpdateUserProps {
+interface DialogUpdateCategoryProps {
   id: string
   children: React.ReactNode
 }
 
-export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
-  const [user, setUser] = useState<userType | null>(null)
+export function DialogUpdateCategory({
+  id,
+  children,
+}: DialogUpdateCategoryProps) {
+  const [category, setCategory] = useState<categoryType | null>(null)
   const [open, setOpen] = useState<boolean>()
   const [error, setError] = useState<ResponseErrorType | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
     const requestData = async () => {
-      const { response } = await api<userType>('GET', `/users/${id}`)
+      const { response } = null // requisicao para api
 
       if (response) {
-        setUser(response)
+        setCategory(response)
       } else {
-        setUser(null)
+        setCategory(null)
         toast({
-          title: 'Usuário não encontrado!',
+          title: 'Categoria  não encontrada!',
         })
         setOpen(false)
       }
@@ -45,7 +48,7 @@ export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
     requestData()
 
     return () => {
-      setUser(null)
+      setCategory(null)
       setError(null)
     }
   }, [id, open, toast])
@@ -53,16 +56,16 @@ export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
   const submit = async (form: FormData) => {
     const newForm = await filterFormData(form)
 
-    const { error } = await JSON.parse(await updateUser(newForm))
+    const { error } = await JSON.parse(await updateCategory(newForm))
 
     if (error) {
       setError(error)
       toast({
-        title: 'Não foi possível editar o usuário!',
+        title: 'Não foi possível editar a categoria!',
       })
     } else {
       toast({
-        title: 'Usuário editado com sucesso!',
+        title: 'Categoria editado com sucesso!',
       })
       setOpen(false)
     }
@@ -73,14 +76,14 @@ export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar usuário</DialogTitle>
+          <DialogTitle>Editar categoria</DialogTitle>
           <DialogDescription>
-            Atualize as informações do usuário abaixo e clique em
+            Atualize as informações da categoria abaixo e clique em
             &quot;Salvar&quot; para aplicar as alterações.
           </DialogDescription>
         </DialogHeader>
         <form action={submit}>
-          <FormFieldsUser error={error} user={user} />
+          <FormFieldsCategory error={error} category={category} />
         </form>
       </DialogContent>
     </Dialog>

@@ -8,35 +8,35 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/dialog'
-import FormFieldsUser from './form-fields-user'
-import { updateUser } from '@/actions/user'
+import FormFieldsBook from './form-fields-book'
+import { updateBook } from '@/actions/book'
 import { filterFormData } from '@/services/filter-form-data'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
-import { userType } from '@/types/user'
+import { bookType } from '@/types/book'
 import { ResponseErrorType, api } from '@/services/api'
 
-interface DialogUpdateUserProps {
+interface DialogUpdateBookProps {
   id: string
   children: React.ReactNode
 }
 
-export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
-  const [user, setUser] = useState<userType | null>(null)
+export function DialogUpdateBook({ id, children }: DialogUpdateBookProps) {
+  const [book, setBook] = useState<bookType | null>(null)
   const [open, setOpen] = useState<boolean>()
   const [error, setError] = useState<ResponseErrorType | null>(null)
   const { toast } = useToast()
 
   useEffect(() => {
     const requestData = async () => {
-      const { response } = await api<userType>('GET', `/users/${id}`)
+      const { response } = await api<bookType>('GET', `/books/${id}`)
 
       if (response) {
-        setUser(response)
+        setBook(response)
       } else {
-        setUser(null)
+        setBook(null)
         toast({
-          title: 'Usuário não encontrado!',
+          title: 'Livro  não encontrado!',
         })
         setOpen(false)
       }
@@ -45,7 +45,7 @@ export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
     requestData()
 
     return () => {
-      setUser(null)
+      setBook(null)
       setError(null)
     }
   }, [id, open, toast])
@@ -53,16 +53,16 @@ export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
   const submit = async (form: FormData) => {
     const newForm = await filterFormData(form)
 
-    const { error } = await JSON.parse(await updateUser(newForm))
+    const { error } = null // requisicao para api
 
     if (error) {
       setError(error)
       toast({
-        title: 'Não foi possível editar o usuário!',
+        title: 'Não foi possível editar o livro!',
       })
     } else {
       toast({
-        title: 'Usuário editado com sucesso!',
+        title: 'Livro editado com sucesso!',
       })
       setOpen(false)
     }
@@ -73,14 +73,14 @@ export function DialogUpdateUser({ id, children }: DialogUpdateUserProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar usuário</DialogTitle>
+          <DialogTitle>Editar livro</DialogTitle>
           <DialogDescription>
-            Atualize as informações do usuário abaixo e clique em
+            Atualize as informações do livro abaixo e clique em
             &quot;Salvar&quot; para aplicar as alterações.
           </DialogDescription>
         </DialogHeader>
         <form action={submit}>
-          <FormFieldsUser error={error} user={user} />
+          <FormFieldsBook error={error} book={book} />
         </form>
       </DialogContent>
     </Dialog>

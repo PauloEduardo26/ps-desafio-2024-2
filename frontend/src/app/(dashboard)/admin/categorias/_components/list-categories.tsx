@@ -1,6 +1,5 @@
 import { DashboardContainer } from '@/components/dashboard/dashboard-items'
 import {
-  TabbleCellImage,
   Table,
   TableBody,
   TableCaption,
@@ -9,78 +8,72 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/dashboard/table'
-import { api } from '@/services/api'
-import { userType } from '@/types/user'
+
+import { categoryType } from '@/types/category'
 import { Button } from '@/components/button'
 import { LuInfo, LuPen, LuPlusCircle, LuTrash } from 'react-icons/lu'
-import { DialogUpdateUser } from './dialog-update-user'
-import { DialogUserDelete } from './dialog-delete-user'
-import { DialogInformationUser } from './dialog-information-user'
-import { DialogCreateUser } from './dialog-create-user'
+import { DialogUpdateCategory } from './dialog-update-category'
+import { DialogCategoryDelete } from './dialog-delete-category'
+import { DialogInformationCategory } from './dialog-information-category'
+import { DialogCreateCategory } from './dialog-create-category'
 
-export default async function ListUsers() {
-  const { response } = await api<userType[]>('GET', '/users')
+export default async function ListCategory() {
+  const { response } = null // requisicao para api
 
   if (!response) {
     return (
       <DashboardContainer className="text-destructive">
-        Não foi possível obter os usuários.
+        Não foi possível obter as categorias.
       </DashboardContainer>
     )
   }
 
-  const users: userType[] = response
+  const categories: categoryType[] = response
 
   return (
     <>
       <DashboardContainer className="flex h-min justify-between space-x-0 gap-y-2.5 max-sm:flex-col">
-        <DialogCreateUser>
+        <DialogCreateCategory>
           <Button size="sm">
             <LuPlusCircle />
-            Novo usuário
+            Nova categoria
           </Button>
-        </DialogCreateUser>
+        </DialogCreateCategory>
       </DashboardContainer>
       <DashboardContainer>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Imagem</TableHead>
               <TableHead>Nome</TableHead>
-              <TableHead>E-mail</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users?.map((user: userType) => (
-              <TableRow key={user.id}>
-                <TableCell>
-                  <TabbleCellImage src={user.image} />
-                </TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
+            {categories?.map((category: categoryType) => (
+              <TableRow key={category.id}>
+                <TableCell>{category.name}</TableCell>
                 <TableCell className="flex justify-end gap-2">
-                  <DialogInformationUser id={user.id}>
+                  <DialogInformationCategory id={category.id}>
                     <Button variant="default-inverse" size="icon">
                       <LuInfo />
                     </Button>
-                  </DialogInformationUser>
-                  <DialogUpdateUser id={user.id}>
+                  </DialogInformationCategory>
+                  <DialogUpdateCategory id={category.id}>
                     <Button variant="secondary-inverse" size="icon">
                       <LuPen />
                     </Button>
-                  </DialogUpdateUser>
-                  <DialogUserDelete id={user.id}>
+                  </DialogUpdateCategory>
+                  <DialogCategoryDelete id={category.id}>
                     <Button variant="destructive-inverse" size="icon">
                       <LuTrash />
                     </Button>
-                  </DialogUserDelete>
+                  </DialogCategoryDelete>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
-          {!users.length && (
-            <TableCaption>Nenhum usuário encontrado.</TableCaption>
+          {!categories.length && (
+            <TableCaption>Nenhuma categoria encontrada.</TableCaption>
           )}
         </Table>
       </DashboardContainer>

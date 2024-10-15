@@ -4,8 +4,8 @@ import {
   DashboardHeaderTitle,
   DashboardMain,
 } from '@/components/dashboard/dashboard-items'
-import { LuUsers } from 'react-icons/lu'
-import ListUsers from './_components/list-users'
+import { LuBookOpen } from 'react-icons/lu'
+import ListBooks from './_components/list-books'
 import { Suspense } from 'react'
 
 export default async function Page() {
@@ -13,16 +13,16 @@ export default async function Page() {
     <>
       <DashboardHeader>
         <DashboardHeaderTitle>
-          <LuUsers />
-          Usuários
+          <LuBookOpen />
+          Livros
         </DashboardHeaderTitle>
         <DashboardHeaderDescription>
-          Cadastre, edite, visualize e exclua usuários.
+          Cadastre, edite, visualize e exclua livros.
         </DashboardHeaderDescription>
       </DashboardHeader>
       <DashboardMain>
         <Suspense>
-          <ListUsers />
+          <ListBooks />
         </Suspense>
       </DashboardMain>
     </>

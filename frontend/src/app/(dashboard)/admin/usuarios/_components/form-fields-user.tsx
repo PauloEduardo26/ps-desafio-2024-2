@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { useFormStatus } from 'react-dom'
 
 interface FormFieldsUserProps {
-  user?: userType
+  user?: userType | null
   readOnly?: boolean
   error?: ResponseErrorType | null
 }

@@ -10,16 +10,16 @@ import {
   TableRow,
 } from '@/components/dashboard/table'
 import { api } from '@/services/api'
-import { userType } from '@/types/user'
+import { bookType } from '@/types/book'
 import { Button } from '@/components/button'
 import { LuInfo, LuPen, LuPlusCircle, LuTrash } from 'react-icons/lu'
-import { DialogUpdateUser } from './dialog-update-user'
-import { DialogUserDelete } from './dialog-delete-user'
-import { DialogInformationUser } from './dialog-information-user'
-import { DialogCreateUser } from './dialog-create-user'
+import { DialogUpdateBook } from './dialog-update-book'
+import { DialogBookDelete } from './dialog-delete-book'
+import { DialogInformationBook } from './dialog-information-book'
+import { DialogCreateBook } from './dialog-create-book'
 
-export default async function ListUsers() {
-  const { response } = await api<userType[]>('GET', '/users')
+export default async function ListBooks() {
+  const { response } = null // requisicao para api
 
   if (!response) {
     return (
@@ -29,58 +29,60 @@ export default async function ListUsers() {
     )
   }
 
-  const users: userType[] = response
+  const books: bookType[] = response
 
   return (
     <>
       <DashboardContainer className="flex h-min justify-between space-x-0 gap-y-2.5 max-sm:flex-col">
-        <DialogCreateUser>
+        <DialogCreateBook>
           <Button size="sm">
             <LuPlusCircle />
-            Novo usuário
+            Novo livro
           </Button>
-        </DialogCreateUser>
+        </DialogCreateBook>
       </DashboardContainer>
       <DashboardContainer>
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Imagem</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>E-mail</TableHead>
+              <TableHead>Titulo</TableHead>
+              <TableHead>Categoria</TableHead>
+              <TableHead>Quantidade</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users?.map((user: userType) => (
-              <TableRow key={user.id}>
+            {books?.map((book: bookType) => (
+              <TableRow key={book.id}>
                 <TableCell>
-                  <TabbleCellImage src={user.image} />
+                  <TabbleCellImage src={book.image} />
                 </TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
+                <TableCell>{book.title}</TableCell>
+                <TableCell>{book.amount}</TableCell>
+                <TableCell>{book.category.name}</TableCell>
                 <TableCell className="flex justify-end gap-2">
-                  <DialogInformationUser id={user.id}>
+                  <DialogInformationBook id={book.id}>
                     <Button variant="default-inverse" size="icon">
                       <LuInfo />
                     </Button>
-                  </DialogInformationUser>
-                  <DialogUpdateUser id={user.id}>
+                  </DialogInformationBook>
+                  <DialogUpdateBook id={book.id}>
                     <Button variant="secondary-inverse" size="icon">
                       <LuPen />
                     </Button>
-                  </DialogUpdateUser>
-                  <DialogUserDelete id={user.id}>
+                  </DialogUpdateBook>
+                  <DialogBookDelete id={book.id}>
                     <Button variant="destructive-inverse" size="icon">
                       <LuTrash />
                     </Button>
-                  </DialogUserDelete>
+                  </DialogBookDelete>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
-          {!users.length && (
-            <TableCaption>Nenhum usuário encontrado.</TableCaption>
+          {!books.length && (
+            <TableCaption>Nenhum livro encontrado.</TableCaption>
           )}
         </Table>
       </DashboardContainer>

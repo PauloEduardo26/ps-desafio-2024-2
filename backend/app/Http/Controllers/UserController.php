@@ -21,8 +21,7 @@ class UserController extends Controller
         $users = User::query()
             ->when($request->has('name'), fn ($query) => $query->orWhere('name', 'like', "%{$request['name']}%"))
             ->when($request->has('email'), fn ($query) => $query->orWhere('email', 'like', "%{$request['email']}%"))
-            ->orderBy('created_at', 'desc')
-            ->paginate((int) $request->per_page);
+            ->orderBy('created_at', 'desc')->get();
 
         return response()->json($users, Response::HTTP_OK);
     }

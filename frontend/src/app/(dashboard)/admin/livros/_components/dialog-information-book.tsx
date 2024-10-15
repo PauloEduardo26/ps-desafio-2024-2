@@ -8,36 +8,36 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/dialog'
-import FormFieldsUser from './form-fields-user'
-import { userType } from '@/types/user'
+import FormFieldsBook from './form-fields-book'
+import { bookType } from '@/types/book'
 import { api } from '@/services/api'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
 
-interface DialogInformationUserProps {
+interface DialogInformationBookProps {
   id: string
   children: React.ReactNode
   isInformation?: boolean
 }
 
-export function DialogInformationUser({
+export function DialogInformationBook({
   id,
   children,
-}: DialogInformationUserProps) {
-  const [user, setUser] = useState<userType | null>(null)
+}: DialogInformationBookProps) {
+  const [book, setBook] = useState<bookType | null>(null)
   const [open, setOpen] = useState<boolean>()
   const { toast } = useToast()
 
   useEffect(() => {
     const requestData = async () => {
-      const { response } = await api<userType>('GET', `/users/${id}`)
+      const { response } = null // requisicao para api
 
       if (response) {
-        setUser(response)
+        setBook(response)
       } else {
-        setUser(null)
+        setBook(null)
         toast({
-          title: 'Usuário não encontrado!',
+          title: 'Livro não encontrado!',
         })
         setOpen(false)
       }
@@ -45,7 +45,7 @@ export function DialogInformationUser({
 
     requestData()
 
-    return () => setUser(null)
+    return () => setBook(null)
   }, [id, open, toast])
 
   return (
@@ -53,12 +53,12 @@ export function DialogInformationUser({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Informações do usuário</DialogTitle>
+          <DialogTitle>Informações do livro</DialogTitle>
           <DialogDescription>
-            Visualize as informações detalhadas do usuário abaixo.
+            Visualize as informações detalhadas do livro abaixo.
           </DialogDescription>
         </DialogHeader>
-        <FormFieldsUser user={user} readOnly />
+        <FormFieldsBook book={book} readOnly />
       </DialogContent>
     </Dialog>
   )

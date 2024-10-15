@@ -4,8 +4,8 @@ import {
   DashboardHeaderTitle,
   DashboardMain,
 } from '@/components/dashboard/dashboard-items'
-import { LuUsers } from 'react-icons/lu'
-import ListUsers from './_components/list-users'
+import { LuLayers } from 'react-icons/lu'
+import ListCategories from './_components/list-categories'
 import { Suspense } from 'react'
 
 export default async function Page() {
@@ -13,16 +13,16 @@ export default async function Page() {
     <>
       <DashboardHeader>
         <DashboardHeaderTitle>
-          <LuUsers />
-          Usuários
+          <LuLayers />
+          Categorias
         </DashboardHeaderTitle>
         <DashboardHeaderDescription>
-          Cadastre, edite, visualize e exclua usuários.
+          Cadastre, edite, visualize e exclua categorias.
         </DashboardHeaderDescription>
       </DashboardHeader>
       <DashboardMain>
         <Suspense>
-          <ListUsers />
+          <ListCategories />
         </Suspense>
       </DashboardMain>
     </>

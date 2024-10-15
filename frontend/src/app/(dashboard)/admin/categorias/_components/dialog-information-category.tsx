@@ -8,36 +8,37 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/dialog'
-import FormFieldsUser from './form-fields-user'
-import { userType } from '@/types/user'
+import FormFieldsCategory from './form-fields-category'
+import { categoryType } from '@/types/category'
+import SkeletonFormFieldsCategory from './skeleton-category'
 import { api } from '@/services/api'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/components/use-toast'
 
-interface DialogInformationUserProps {
+interface DialogInformationCategoryProps {
   id: string
   children: React.ReactNode
   isInformation?: boolean
 }
 
-export function DialogInformationUser({
+export function DialogInformationCategory({
   id,
   children,
-}: DialogInformationUserProps) {
-  const [user, setUser] = useState<userType | null>(null)
+}: DialogInformationCategoryProps) {
+  const [category, setCategory] = useState<categoryType | null>(null)
   const [open, setOpen] = useState<boolean>()
   const { toast } = useToast()
 
   useEffect(() => {
     const requestData = async () => {
-      const { response } = await api<userType>('GET', `/users/${id}`)
+      const { response } = null // requisicao para api
 
       if (response) {
-        setUser(response)
+        setCategory(response)
       } else {
-        setUser(null)
+        setCategory(null)
         toast({
-          title: 'Usuário não encontrado!',
+          title: 'Categoria não encontrada!',
         })
         setOpen(false)
       }
@@ -45,7 +46,7 @@ export function DialogInformationUser({
 
     requestData()
 
-    return () => setUser(null)
+    return () => setCategory(null)
   }, [id, open, toast])
 
   return (
@@ -53,12 +54,16 @@ export function DialogInformationUser({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Informações do usuário</DialogTitle>
+          <DialogTitle>Informações da categoria</DialogTitle>
           <DialogDescription>
-            Visualize as informações detalhadas do usuário abaixo.
+            Visualize as informações detalhadas da categoria abaixo.
           </DialogDescription>
         </DialogHeader>
-        <FormFieldsUser user={user} readOnly />
+        {category ? (
+          <FormFieldsCategory category={category} readOnly />
+        ) : (
+          <SkeletonFormFieldsCategory readOnly />
+        )}
       </DialogContent>
     </Dialog>
   )
