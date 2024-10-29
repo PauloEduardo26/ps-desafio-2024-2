@@ -7,6 +7,8 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class BookController extends Controller
 {
@@ -53,26 +55,34 @@ class BookController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Book $book)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBookRequest $request, Book $book)
+    public function update(UpdateBookRequest $request, $id): JsonResponse
     {
-        //
+        $data = $request->validated();
+        $book = $this->book->with('category')->findOrFail($id);
+
+        if($request->hasFile('image')){
+            try{
+                $image_name = explode('books/', $book['image']);
+                Storage::disk('public')->delete('books/'.$image_name[1]);
+            }catch(Throwable){
+            }finally{
+                $path = $request->file('image')->store('books', 'public');
+                $data['image'] = url('storage/'.$path);
+            }
+        }
+        $book->update($data); 
+        return response()->json($book, Response::HTTP_CREATED);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy($id): JsonResponse
     {
-        //
+        $book = $this->book->findOrFail($id);
+        $book->delete();
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

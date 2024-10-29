@@ -16,4 +16,12 @@ class Category extends Model
     public function books(){
         return $this->hasMany(Book::class, 'category_id', 'id');
     }
+
+    protected static function booted(){
+        self::deleting(function (Category $category){
+            $category->books()->each(function ($book){
+                $book->delete();
+            });
+        });
+    }
 }

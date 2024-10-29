@@ -31,8 +31,10 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         $category = $this->category->create($data);
-
-        return response()->json($category, Response::HTTP_CREATED);
+        $id = $category->id;
+        $category_book = $this->category->with('books')->findOrFail($id);
+        
+        return response()->json($category_book, Response::HTTP_CREATED);
     }
 
     /**
