@@ -40,9 +40,11 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show($id): JsonResponse
     {
-        //
+        $category = $this->category->with('books')->findOrFail($id);
+
+        return response()->json($category, Response::HTTP_OK);
     }
 
     /**

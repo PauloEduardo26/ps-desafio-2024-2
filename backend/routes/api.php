@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum', 'can:admin'])->group(function () {
     Route::apiResource('/books', BookController::class)->except('index', 'show');
 });
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/{id}', [BookController::class, 'show']);

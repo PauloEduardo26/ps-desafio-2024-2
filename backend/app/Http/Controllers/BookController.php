@@ -49,9 +49,11 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show($id): JsonResponse
     {
-        //
+        $book = $this->book->with('category')->findOrFail($id);
+
+        return response()->json($book, Response::HTTP_OK);
     }
 
     /**
