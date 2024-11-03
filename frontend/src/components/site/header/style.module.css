@@ -1,0 +1,17 @@
+.header{
+    padding: 10px;
+    height: 15vh;
+    background-color: chocolate;
+    /* position: fixed;  depois arrumar um jeito*/
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+.header_input{
+    float: right;
+    padding: 6px;
+    border: none;
+    font-size: 17px;
+}

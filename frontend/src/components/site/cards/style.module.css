@@ -1,0 +1,15 @@
+.card {
+    background-color: blueviolet;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    width: 40vw;
+    border-radius: 10px;
+}
+.card_img{
+    height: 30vh;
+    width: 20vw;
+    align-self: center;
+    margin: 10px;
+    border-radius: 10%;
+}

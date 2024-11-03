@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
         $user->assignPermission('admin');
         
         Category::factory(5)->create();
-        Book::factory(5)->create();
+        Book::factory(10)->create();
     }
 }
