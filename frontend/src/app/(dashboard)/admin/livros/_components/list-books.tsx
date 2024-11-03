@@ -17,9 +17,11 @@ import { DialogUpdateBook } from './dialog-update-book'
 import { DialogBookDelete } from './dialog-delete-book'
 import { DialogInformationBook } from './dialog-information-book'
 import { DialogCreateBook } from './dialog-create-book'
+import { categoryType } from '@/types/category'
 
 export default async function ListBooks() {
-  const { response } = null // requisicao para api
+  const { response } = await api<bookType[]>('GET', '/books')
+  const resposta = await api<categoryType[]>('GET', '/categories') // requisicao para api
 
   if (!response) {
     return (
@@ -29,6 +31,7 @@ export default async function ListBooks() {
     )
   }
 
+  const categories: categoryType[] | undefined = resposta.response
   const books: bookType[] = response
 
   return (
@@ -48,6 +51,9 @@ export default async function ListBooks() {
               <TableHead>Imagem</TableHead>
               <TableHead>Titulo</TableHead>
               <TableHead>Categoria</TableHead>
+              <TableHead>Autor</TableHead>
+              <TableHead>Descrição</TableHead>
+              <TableHead>Lançamento</TableHead>
               <TableHead>Quantidade</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
@@ -58,16 +64,20 @@ export default async function ListBooks() {
                 <TableCell>
                   <TabbleCellImage src={book.image} />
                 </TableCell>
-                <TableCell>{book.title}</TableCell>
-                <TableCell>{book.amount}</TableCell>
+                <TableCell>{book.name}</TableCell>
                 <TableCell>{book.category.name}</TableCell>
+                <TableCell>{book.author}</TableCell>
+                <TableCell>{book.description}</TableCell>
+                <TableCell>{book.release_date}</TableCell>
+                <TableCell>{book.quantity}</TableCell>
+
                 <TableCell className="flex justify-end gap-2">
                   <DialogInformationBook id={book.id}>
                     <Button variant="default-inverse" size="icon">
                       <LuInfo />
                     </Button>
                   </DialogInformationBook>
-                  <DialogUpdateBook id={book.id}>
+                  <DialogUpdateBook id={book.id} categories={categories}>
                     <Button variant="secondary-inverse" size="icon">
                       <LuPen />
                     </Button>
