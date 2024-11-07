@@ -1,15 +1,36 @@
 .card {
-    background-color: blueviolet;
+    background-color: var(--card-color);
     text-align: center;
     align-items: center;
     display: flex;
-    width: 40vw;
+    width: 400px;
+    display: flex;
     border-radius: 10px;
+    margin: 20px;
+    transition: ease-in-out 0.2s;
+}
+.card:hover{
+    transform: scale(1.1);
 }
 .card_img{
-    height: 30vh;
-    width: 20vw;
+    height: 35vh;
+    width: 50%;
     align-self: center;
     margin: 10px;
-    border-radius: 10%;
+}
+.card_body{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    text-align: left;
+    flex-direction: column;
+}
+.card_name{
+    font-weight: 700;
+    margin-bottom: 20px;
+    align-self: center;
+}
+.card_content{
+    margin-bottom: 5px;
 }

@@ -1,5 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+.main{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--primary-text-color);
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 20vh auto 20vh;
+}
+
 .cards{
     display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
+    flex-flow: row-reverse wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background-color: var(--background-color);
+}
+.header{
+    padding: 10px;
+    height: 20vh;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background-color: var(--foreground-color);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+.header_logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.header_input{
+    float: right;
+    padding: 6px;
+    border: none;
+    width: 40%;
+    font-size: 1rem;
+    font-weight: 400;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    border: 1px solid var(--primary-text-color);
+    border-radius: 10px;
+}
+
+.header_img{
+    height: 50px;
+}
+.header_admin_btn{
+    background-color: var(--background-color);
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-text-color);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+.header_admin_btn:hover{
+    background-color: var(--hover-color);
+}
+@media (max-width: 820px) {
+    .header{
+        display: block;
+    }
 }

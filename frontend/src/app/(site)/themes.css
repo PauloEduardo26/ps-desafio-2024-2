@@ -1,0 +1,17 @@
+[data-theme="light"] {
+    --background-color: #A3EBF8;
+    --foreground-color: #3299CC;
+    --primary-text-color: #0a0a0a;
+    --hover-color: #00FF7F;
+    --sold-out-color: #686464;
+    --card-color: #cff5fc;
+}
+  
+[data-theme="dark"] {
+    --background-color: #0a0a0a;
+    --foreground-color: #012b63;
+    --primary-text-color: #f6f6f6;
+    --hover-color: #f4af1b;
+    --sold-out-color: #2c2a2a;
+    --card-color: #00275c;
+}
