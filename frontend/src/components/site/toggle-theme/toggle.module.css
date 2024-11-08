@@ -8,8 +8,7 @@
     display: none;
 }
 .toggle_container{
-    padding: 10px;
-    width: 70px;
+    width: var(--button-normal-size);
     display: flex;
     justify-content: center;
     color: var(--primary-text-color);

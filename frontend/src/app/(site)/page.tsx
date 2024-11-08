@@ -54,16 +54,18 @@ export default function Home() {
             onChange={handleInputChange}
             placeholder="Buscar por título"
           />
-          <Toggle
-            isChecked={isDark}
-            handleChange={() => setIsDark(!isDark)}
-            theme={isDark ? 'light' : 'dark'}
-          ></Toggle>
-          <button className={style.header_admin_btn}>
-            <Link href="/admin" target="_blank">
-              Admin
-            </Link>
-          </button>
+          <div className={style.btn_section}>
+            <Toggle
+              isChecked={isDark}
+              handleChange={() => setIsDark(!isDark)}
+              theme={isDark ? 'light' : 'dark'}
+            ></Toggle>
+            <button className={style.header_admin_btn}>
+              <Link href="/admin" target="_blank">
+                Admin
+              </Link>
+            </button>
+          </div>
         </header>
         <div className={style.cards}>
           {books

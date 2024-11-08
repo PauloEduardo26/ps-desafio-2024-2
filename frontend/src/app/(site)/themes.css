@@ -1,3 +1,6 @@
+:root{
+    --button-normal-size: 70px;
+}
 [data-theme="light"] {
     --background-color: #A3EBF8;
     --foreground-color: #3299CC;
