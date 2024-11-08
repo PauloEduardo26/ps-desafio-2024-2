@@ -15,8 +15,18 @@ import Link from 'next/link'
 export default function Home() {
   const [books, setBooks] = useState<bookType[] | undefined>()
   const { toast } = useToast()
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState<boolean>(false)
   const [query, setQuery] = useState<string>('')
+  const [mounted, setMounted] = useState(false)
+  // Adicionei um estado mounted para verificar se o componente foi carregado no lado do cliente
+
+  useEffect(() => {
+    setMounted(true) // Usei um useEffect para definir mounted como true após o componente ser montado no cliente
+    const savedTheme = localStorage.getItem('isDark')
+    setIsDark(savedTheme === 'true')
+    // Essas duas linhas de código são responsáveis por ler o tema salvo no localStorage e atualizar o
+    // estado do tema (isDark) na aplicação.
+  }, [])
 
   useEffect(() => {
     const requestData = async () => {
@@ -31,8 +41,21 @@ export default function Home() {
     requestData()
   }, [toast])
 
+  const handleThemeToggle = () => {
+    const newTheme = !isDark // Inverte o estado atual (isDark) para alternar o tema.
+    setIsDark(newTheme) // Atualiza o estado interno da aplicação para aplicar o novo tema.
+    localStorage.setItem('isDark', newTheme.toString())
+    // Salva a preferência do usuário no localStorage para persistência entre sessões.
+  }
+
+  if (!mounted) return null // Antes de o componente estar montado, ele retorna null, evitando erros
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // event: É o evento disparado pelo input quando o usuário digita algo.
+    // React.ChangeEvent<HTMLInputElement>: É o tipo do evento, que indica
+    // ser uma mudança de valor em um elemento <input> HTML.
     setQuery(event.target.value)
+    // Atualizar o estado query com o valor digitado pelo usuário no campo de input
   }
 
   return (
@@ -57,9 +80,9 @@ export default function Home() {
           <div className={style.btn_section}>
             <Toggle
               isChecked={isDark}
-              handleChange={() => setIsDark(!isDark)}
+              handleChange={handleThemeToggle}
               theme={isDark ? 'light' : 'dark'}
-            ></Toggle>
+            />
             <button className={style.header_admin_btn}>
               <Link href="/admin" target="_blank">
                 Admin
@@ -73,8 +96,14 @@ export default function Home() {
               book.name.toLowerCase().includes(query.toLowerCase()),
             )
             .map((book, index) => <Card key={index} book={book} />)}
+          {/* 
+          O operador (?.) verifica se books não é undefined ou null antes de tentar acessar o método filter. 
+          O método filter cria uma nova lista de livros que tenham no seu nome o que foi escrito no campo do input 
+          representado pela query.
+          O método map percorre a lista filtrada de livros e retorna um componente <Card /> para cada livro.
+          */}
         </div>
-        <Footer></Footer>
+        <Footer />
       </div>
     </>
   )
